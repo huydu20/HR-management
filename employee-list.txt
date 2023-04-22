@@ -1,0 +1,6 @@
+4
+     Index                          Name       Position
+         1                     vanhuydu1      President
+         2                     vanhuydu2        Manager
+         3                     vanhuydu3       Employee
+         4                     vanhuydu4       Customer
