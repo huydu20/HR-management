@@ -1,0 +1,4 @@
+2
+   ID                     Name               Manager ID             Manager name
+    1                Personnel                        1             Nguyen Van A
+    2                  Finance                        6                 Le Thi F

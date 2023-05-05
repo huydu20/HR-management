@@ -1,6 +1,9 @@
-4
-     Index                          Name       Position
-         1                     vanhuydu1      President
-         2                     vanhuydu2        Manager
-         3                     vanhuydu3       Employee
-         4                     vanhuydu4       Customer
+7
+   ID                     Name           Date    Gender   Phone number       Position        Work at
+    7        Nguyen Dinh Trong     19/12/1999      Male     0123665478        Manager              2
+    1             Nguyen Van A     21/03/2002      Male     0923091234      President              2
+    2             Nguyen Thi B     01/12/2003    Female     0923123123        Manager              1
+    3             Nguyen Van C     27/02/2004      Male     0925164532       Employee              1
+    4               Tran Thi D     09/02/2002      Male     0912562334        Manager              2
+    5                 Le Thi F     01/11/2001    Female     0912567434       Customer              1
+    6                 Le Thi F     01/11/2001    Female     0912567434       Customer              2
