@@ -22,39 +22,56 @@
 
 using namespace std;
 
+
 struct EmployeeInfo
 {
-    unsigned int id;
+    unsigned int id = 0;
     string name;
     string date;
     string gender;
     string phone;
     string position;
-    unsigned int departmentID;
+    unsigned int departmentID = 0;
 };
 
 struct DepartmentInfo
 {
-    unsigned int id;
+    unsigned int id = 0;
     string name;
-    unsigned int manager_id;
+    unsigned int manager_id = 0;
     string manager_name;
+};
+
+struct Salary {
+    unsigned int id = 0;
+    string name;
+    string month;
+    double income = 0;
+    double bonus = 0;
+    double salary = 0;
+};
+
+struct Timekeeping {
+    unsigned int id = 0;
+    string name;
+    unsigned int days = 0;
+    string month;
 };
 
 template <typename T>
 struct Node
 {
     T data;
-    Node<T> *next;
-    Node<T> *prev;
+    Node<T>* next = NULL;
+    Node<T>* prev = NULL;
 };
 
 template <typename T>
 struct List
 {
 private:
-    Node<T> *head;
-    Node<T> *tail;
+    Node<T>* head = NULL;
+    Node<T>* tail = NULL;
     int len;
 
 public:
@@ -66,11 +83,11 @@ public:
     }
     int isEmpty() { return head == NULL; }
     int getLen() { return len; }
-    Node<T> *getHead() { return head; }
-    Node<T> *getTail() { return tail; }
+    Node<T>* getHead() { return head; }
+    Node<T>* getTail() { return tail; }
 
     // Ham lay phan tu trong List
-    Node<T> *getItem(int ps)
+    Node<T>* getItem(int ps)
     {
         if (ps > len || ps <= 0)
         {
@@ -80,7 +97,7 @@ public:
         {
             if (ps <= len / 2)
             {
-                Node<T> *q = head;
+                Node<T>* q = head;
                 for (int i = 0; i < ps - 1; i++)
                 {
                     if (q->next == NULL)
@@ -93,7 +110,7 @@ public:
             }
             else
             {
-                Node<T> *q = tail;
+                Node<T>* q = tail;
                 for (int i = len; i > ps; i--)
                 {
                     if (q->prev == NULL)
@@ -107,22 +124,22 @@ public:
         }
     }
 
-    Node<T> *getFirstItem()
+    Node<T>* getFirstItem()
     {
-        Node<T> *p = head;
+        Node<T>* p = head;
         return p;
     }
 
-    Node<T> *getLastItem()
+    Node<T>* getLastItem()
     {
-        Node<T> *p = tail;
+        Node<T>* p = tail;
         return p;
     }
 
     // Ham them phan tu
     int addFirst(T x)
     {
-        Node<T> *p = new Node<T>();
+        Node<T>* p = new Node<T>();
         p->data = x;
         p->prev = NULL;
         if (head != NULL)
@@ -136,7 +153,7 @@ public:
 
     int addLast(T x)
     {
-        Node<T> *p = new Node<T>();
+        Node<T>* p = new Node<T>();
         p->data = x;
         p->next = NULL;
         p->prev = tail;
@@ -153,9 +170,9 @@ public:
         return 1;
     }
 
-    int addItem(Node<T> *p, T x)
+    int addItem(Node<T>* p, T x)
     {
-        Node<T> *q = new Node<T>();
+        Node<T>* q = new Node<T>();
         q->data = x;
         if (p != NULL)
         {
@@ -179,7 +196,7 @@ public:
     // Ham xoa phan tu
     int removeFirst()
     {
-        Node<T> *p = head;
+        Node<T>* p = head;
         if (p != NULL)
         {
             p->next->prev = p->prev;
@@ -196,7 +213,7 @@ public:
 
     int removeLast()
     {
-        Node<T> *p = tail;
+        Node<T>* p = tail;
         if (p != NULL)
         {
             p->prev->next = NULL;
@@ -211,7 +228,7 @@ public:
         }
     }
 
-    int removeItem(Node<T> *p)
+    int removeItem(Node<T>* p)
     {
         if (head != NULL)
         {
@@ -223,7 +240,7 @@ public:
 
             if (p->next != NULL)
             {
-                Node<T> *q = head;
+                Node<T>* q = head;
                 while (q->next != p)
                 {
                     q = q->next;
@@ -250,10 +267,10 @@ public:
     {
         if (head != NULL)
         {
-            Node<T> *q = head;
+            Node<T>* q = head;
             while (q->next != NULL)
             {
-                Node<T> *tmp = q;
+                Node<T>* tmp = q;
                 q = q->next;
                 delete tmp;
             }
@@ -276,7 +293,7 @@ public:
         }
         if (head != NULL)
         {
-            Node<T> *q = head;
+            Node<T>* q = head;
             for (int i = 0; i < p - 1; i++)
             {
                 q = q->next;
@@ -287,9 +304,9 @@ public:
     }
 
     // Ham gop List
-    void addRange(List<T> &list)
+    void addRange(List<T>& list)
     {
-        Node<T> *q = head;
+        Node<T>* q = head;
         while (q->next != NULL)
         {
             q = q->next;
@@ -302,54 +319,66 @@ struct Company
 {
     List<EmployeeInfo> listOfEmployee;
     List<DepartmentInfo> listOfDepartment;
+    List<Timekeeping> listOfTimeKeeping;
+    List<Salary> listOfSalary;
 };
 
 // ------ Local Variable --------- //
 
 // -------- Declare Functions ----------//
 
-void App(Company &company, bool &isRunning);
+void App(Company& company, bool& isRunning);
 
 // -------- Interaction function
 void pressAnyKey();
 bool confirm();
-void print(Company &company);
+void print(Company& company);
 
 // Get item
-EmployeeInfo getEmployeeByID(Company &company, unsigned int id);
-DepartmentInfo getDepartmentByID(Company &company, unsigned int id);
+EmployeeInfo getEmployeeByID(Company& company, unsigned int id);
+DepartmentInfo getDepartmentByID(Company& company, unsigned int id);
 
 // Handle Add New Item
-int addNewEmployee(Company &company);
-int addNewDepartment(Company &company);
+int addNewEmployee(Company& company);
+int addNewDepartment(Company& company);
 
 // Handle Delete
-int deleteEmployee(Company &company);
-int deleteDepartment(Company &company);
+int deleteEmployee(Company& company);
+int deleteDepartment(Company& company);
 
 // Handle Search
-int searchEmployee(Company &company);
-int searchDepartment(Company &company);
+int searchEmployee(Company& company);
+int searchDepartment(Company& company);
 
 // Handle Update Information
-int update(Company &company);
+int update(Company& company);
 
 // Handle Arrange
-int arrange(Company &company);
+int arrange(Company& company);
+
+// Handle Budget
+int budget(Company& company);
+int payrollForMonth(Company& company);
+
+// Handle Timekeeping
+int timeKeeping(Company& company);
 
 // Handle Format & Check
 string formatName(string name);
 bool checkPhoneInput(string phone);
-bool hasEmployeeWithID(Company &company, unsigned int id);
-bool hasEmployeeWithPosition(Company &company, string position);
-bool hasDepartmentWithID(Company &company, unsigned int id);
-bool hasDepartmentWithName(Company &company, string name);
+bool hasEmployeeWithID(Company& company, unsigned int id);
+bool hasEmployeeWithPosition(Company& company, string position);
+bool hasDepartmentWithID(Company& company, unsigned int id);
+bool hasDepartmentWithName(Company& company, string name);
+bool hasTimekeepingWithID(Company& company, unsigned int id);
+bool hasTimekeepingWithMonth(Company& company, string month);
+bool hasTimekeepingWithIDandMonth(Company& company, unsigned int id, string month);
 bool isValidDate(string input);
 string toLower(string str);
 
 // ------ Import/Export from files
-int readDataFromFile(Company &company);
-void writeDataToFile(Company &company);
+int readDataFromFile(Company& company);
+void writeDataToFile(Company& company);
 
 // ------- Main ------ //
 int main()
@@ -365,7 +394,7 @@ int main()
     return 0;
 }
 // Display
-void App(Company &company, bool &isRunning)
+void App(Company& company, bool& isRunning)
 {
     cout << "==========HUMAN RESOURCE MANAGEMENT======" << endl;
     cout << "=================MENU====================" << endl;
@@ -375,10 +404,12 @@ void App(Company &company, bool &isRunning)
     cout << "*   4. Add new department               *" << endl; // done
     cout << "*   5. Delete department                *" << endl; // done
     cout << "*   6. Search department                *" << endl; // done
-    cout << "*   7. Update information               *" << endl; // 
+    cout << "*   7. Update information               *" << endl; // done
     cout << "*   8. Arrange                          *" << endl; // done
     cout << "*   9. Display                          *" << endl; // done
-    cout << "*  10. Export data to file              *" << endl; // done
+    cout << "*  10. Timekeeping                      *" << endl; // done
+    cout << "*  11. Budget manager                   *" << endl; // done
+    cout << "*  12. Export data to file              *" << endl; // done
     cout << "*   0. Exit                             *" << endl; // done
     cout << "=========================================" << endl;
     cout << "Input your select: ";
@@ -423,6 +454,14 @@ void App(Company &company, bool &isRunning)
         pressAnyKey();
         break;
     case 10:
+        timeKeeping(company);
+        pressAnyKey();
+        break;
+    case 11:
+        budget(company);
+        pressAnyKey();
+        break;
+    case 12:
         writeDataToFile(company);
         pressAnyKey();
         break;
@@ -443,7 +482,7 @@ void pressAnyKey()
 {
     cout << endl;
     cout << "\nPress any key to back!";
-    getch();
+    _getch();
     system("cls");
 }
 
@@ -478,15 +517,15 @@ bool confirm()
 string trim(string str)
 {
     string result = str;
-    result.erase(0, result.find_first_not_of(' ')); // loại bỏ khoảng trắng đầu chuỗi
-    result.erase(result.find_last_not_of(' ') + 1); // loại bỏ khoảng trắng cuối chuỗi
+    result.erase(0, result.find_first_not_of(' ')); 
+    result.erase(result.find_last_not_of(' ') + 1); 
     return result;
 }
 
 // Print
-void printAllEmployee(Company &company)
+void printAllEmployee(Company& company)
 {
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
 
     if (company.listOfEmployee.getLen() == 0)
     {
@@ -519,9 +558,9 @@ void printAllEmployee(Company &company)
     }
 }
 
-void printEmployeeList(Company &company, List<EmployeeInfo> &list)
+void printEmployeeList(Company& company, List<EmployeeInfo>& list)
 {
-    Node<EmployeeInfo> *head = list.getHead();
+    Node<EmployeeInfo>* head = list.getHead();
 
     if (list.getLen() == 0)
     {
@@ -554,7 +593,7 @@ void printEmployeeList(Company &company, List<EmployeeInfo> &list)
     }
 }
 
-void printEmployee(Company &company, EmployeeInfo employee)
+void printEmployee(Company& company, EmployeeInfo employee)
 {
     cout << setw(ID_SPACE) << "Id";
     cout << setw(NAME_SPACE) << "Name";
@@ -570,13 +609,13 @@ void printEmployee(Company &company, EmployeeInfo employee)
     cout << setw(GENDER_SPACE) << employee.gender;
     cout << setw(PHONE_SPACE) << employee.phone;
     cout << setw(POSITION_SPACE) << employee.position;
-    cout << setw(WORK_AT_SPACE) << getDepartmentByID(company, employee.id).name;
+    cout << setw(WORK_AT_SPACE) << getDepartmentByID(company, employee.departmentID).name;
     cout << endl;
 }
 
-void printAllDepartment(Company &company)
+void printAllDepartment(Company& company)
 {
-    Node<DepartmentInfo> *head = company.listOfDepartment.getHead();
+    Node<DepartmentInfo>* head = company.listOfDepartment.getHead();
 
     if (company.listOfDepartment.getLen() == 0)
     {
@@ -603,9 +642,9 @@ void printAllDepartment(Company &company)
     }
 }
 
-void printDepartmentList(List<DepartmentInfo> &list)
+void printDepartmentList(List<DepartmentInfo>& list)
 {
-    Node<DepartmentInfo> *head = list.getHead();
+    Node<DepartmentInfo>* head = list.getHead();
 
     if (list.getLen() == 0)
     {
@@ -646,7 +685,75 @@ void printDepartment(DepartmentInfo department)
     cout << endl;
 }
 
-void print(Company &company)
+void printTimekeepingList(List<Timekeeping> &list) {
+    Node<Timekeeping>* head = list.getHead();
+
+    if (list.getLen() == 0)
+    {
+        cout << "Empty list !";
+        return;
+    }
+
+    cout << setw(ID_SPACE) << "ID";
+    cout << setw(NAME_SPACE) << "Name";
+    cout << setw(DATE_SPACE) << "Month";
+    cout << setw(DATE_SPACE) << "Days";
+    cout << endl;
+    for (int i = 0; i < list.getLen(); i++)
+    {
+        if (i > 10) {
+            cout << list.getLen() - i << " " << "item more." << endl;
+        }
+        if (head != NULL)
+        {
+            cout << setw(ID_SPACE) << head->data.id;
+            cout << setw(NAME_SPACE) << head->data.name;
+            cout << setw(DATE_SPACE) << head->data.month;
+            cout << setw(DATE_SPACE) << head->data.days;
+            cout << endl;
+        }
+        head = head->next;
+    }
+}
+
+void printSalaryForMonth(List<Salary>& list) {
+    Node<Salary>* head = list.getHead();
+
+    if (list.getLen() == 0)
+    {
+        cout << "Empty list !";
+        return;
+    }
+
+    cout << setw(ID_SPACE) << "ID";
+    cout << setw(NAME_SPACE) << "Name";
+    cout << setw(DATE_SPACE) << "Month";
+    cout << setw(DATE_SPACE) << "Income";
+    cout << setw(DATE_SPACE) << "Bonus";
+    cout << setw(DATE_SPACE) << "Total";
+    cout << endl;
+    for (int i = 0; i < list.getLen(); i++)
+    {
+        /*if (i > 10) {
+            cout << list.getLen() - i << " " << "item more." << endl;
+            break;
+        }
+        */
+        if (head != NULL)
+        {
+            cout << setw(ID_SPACE) << head->data.id;
+            cout << setw(NAME_SPACE) << head->data.name;
+            cout << setw(DATE_SPACE) << head->data.month;
+            cout << setw(DATE_SPACE) << head->data.income;
+            cout << setw(DATE_SPACE) << head->data.bonus;
+            cout << setw(DATE_SPACE) << head->data.salary;
+            cout << endl;
+        }
+        head = head->next;
+    }
+}
+
+void print(Company& company)
 {
     bool isChose = false;
     int select;
@@ -655,7 +762,8 @@ void print(Company &company)
         cout << "Chose a print option ?" << endl;
         cout << "1. Employee list" << endl;
         cout << "2. Department list" << endl;
-        cout << "3. Back" << endl;
+        cout << "3. Timekeeping list" << endl;
+        cout << "4. Back" << endl;
         cout << "Input your select: ";
         cin >> select;
         switch (select)
@@ -669,6 +777,10 @@ void print(Company &company)
             isChose = true;
             break;
         case 3:
+            printTimekeepingList(company.listOfTimeKeeping);
+            isChose = true;
+            break;
+        case 4:
             pressAnyKey();
             isChose = true;
             break;
@@ -681,7 +793,7 @@ void print(Company &company)
 }
 
 // Handle Add New Employee
-int addNewEmployee(Company &company)
+int addNewEmployee(Company& company)
 {
     int n;
     cout << "Input number of new employee: ";
@@ -703,7 +815,7 @@ int addNewEmployee(Company &company)
         // Date
         cout << "Input employee date: ";
         getline(cin, newEmployee.date);
-        while(!isValidDate(newEmployee.date)) {
+        while (!isValidDate(newEmployee.date)) {
             cout << "Invalid date!!" << endl;
             cout << "Input employee date: ";
             getline(cin, newEmployee.date);
@@ -744,9 +856,7 @@ int addNewEmployee(Company &company)
         getline(cin, newEmployee.phone);
         while (!checkPhoneInput(newEmployee.phone))
         {
-            cout << "Invalid phone number!" << endl;
             cout << "Input employee phone again: ";
-            cin.ignore();
             getline(cin, newEmployee.phone);
         }
         // Position
@@ -816,9 +926,9 @@ int addNewEmployee(Company &company)
 }
 
 // Handle get item
-EmployeeInfo getEmployeeByID(Company &company, unsigned int id)
+EmployeeInfo getEmployeeByID(Company& company, unsigned int id)
 {
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
 
     EmployeeInfo employee;
     if (head != NULL)
@@ -836,8 +946,8 @@ EmployeeInfo getEmployeeByID(Company &company, unsigned int id)
     return employee;
 }
 
-DepartmentInfo getDepartmentByID(Company &company, unsigned int id) {
-    Node<DepartmentInfo> *head = company.listOfDepartment.getHead();
+DepartmentInfo getDepartmentByID(Company& company, unsigned int id) {
+    Node<DepartmentInfo>* head = company.listOfDepartment.getHead();
 
     DepartmentInfo department;
     if (head != NULL)
@@ -855,8 +965,46 @@ DepartmentInfo getDepartmentByID(Company &company, unsigned int id) {
     return department;
 }
 
+Timekeeping getTimekeepingByID(Company& company, unsigned int id) {
+    Node<Timekeeping>* head = company.listOfTimeKeeping.getHead();
+
+    Timekeeping timekeeping;
+    if (head != NULL)
+    {
+        while (head != NULL)
+        {
+            if (head->data.id == id)
+            {
+                timekeeping = head->data;
+                break;
+            }
+            head = head->next;
+        }
+    }
+    return timekeeping;
+}
+
+Timekeeping getTimekeepingByIDandMonth(Company& company, unsigned int id, string month) {
+    Node<Timekeeping>* head = company.listOfTimeKeeping.getHead();
+
+    Timekeeping timekeeping;
+    if (head != NULL)
+    {
+        while (head != NULL)
+        {
+            if (head->data.id == id && head->data.month.find(month) != string::npos)
+            {
+                timekeeping = head->data;
+                break;
+            }
+            head = head->next;
+        }
+    }
+    return timekeeping;
+}
+
 // Handle Add New Department
-int addNewDepartment(Company &company)
+int addNewDepartment(Company& company)
 {
     DepartmentInfo newDepartment;
     EmployeeInfo manager;
@@ -865,7 +1013,7 @@ int addNewDepartment(Company &company)
     cin.ignore();
     getline(cin, newDepartment.name);
 
-    if(hasDepartmentWithName(company, newDepartment.name)) {
+    if (hasDepartmentWithName(company, newDepartment.name)) {
         cout << "Departments already exist" << endl;
         return 0;
     }
@@ -892,9 +1040,9 @@ int addNewDepartment(Company &company)
 }
 
 // Handle Delete Employee
-int deleteEmployeeByID(Company &company)
+int deleteEmployeeByID(Company& company)
 {
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
     unsigned int id;
     cout << "Input employee ID: ";
     cin >> id;
@@ -930,10 +1078,10 @@ int deleteEmployeeByID(Company &company)
     return 1;
 }
 
-int deleteEmployeeByName(Company &company)
+int deleteEmployeeByName(Company& company)
 {
     List<EmployeeInfo> result;
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
 
     string name;
     cout << "Input employee name: ";
@@ -962,8 +1110,8 @@ int deleteEmployeeByName(Company &company)
             cout << "Find " << count << " results" << endl;
             printEmployeeList(company, result);
 
-            Node<EmployeeInfo> *_head = company.listOfEmployee.getHead();
-            Node<EmployeeInfo> *_result = result.getHead();
+            Node<EmployeeInfo>* _head = company.listOfEmployee.getHead();
+            Node<EmployeeInfo>* _result = result.getHead();
             unsigned int id;
             cout << "Please input employee ID: ";
             cin >> id;
@@ -1016,9 +1164,9 @@ int deleteEmployeeByName(Company &company)
     return 1;
 }
 
-int deleteEmployeeByPosition(Company &company)
+int deleteEmployeeByPosition(Company& company)
 {
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
 
     string position;
     int select;
@@ -1095,7 +1243,7 @@ int deleteEmployeeByPosition(Company &company)
     return 1;
 }
 
-int deleteAllEmployee(Company &company)
+int deleteAllEmployee(Company& company)
 {
     if (!confirm())
         return 0;
@@ -1104,7 +1252,7 @@ int deleteAllEmployee(Company &company)
     return 1;
 }
 
-int deleteEmployee(Company &company)
+int deleteEmployee(Company& company)
 {
     bool isChose = false;
     int select;
@@ -1148,9 +1296,9 @@ int deleteEmployee(Company &company)
     return 1;
 }
 
-int deleteDepartmentByID(Company &company)
+int deleteDepartmentByID(Company& company)
 {
-    Node<DepartmentInfo> *head = company.listOfDepartment.getHead();
+    Node<DepartmentInfo>* head = company.listOfDepartment.getHead();
     unsigned int id;
     cout << "Input department ID: ";
     cin >> id;
@@ -1186,8 +1334,8 @@ int deleteDepartmentByID(Company &company)
     return 1;
 }
 
-int deleteDepartmentByName(Company &company) {
-    Node<DepartmentInfo> *head = company.listOfDepartment.getHead();
+int deleteDepartmentByName(Company& company) {
+    Node<DepartmentInfo>* head = company.listOfDepartment.getHead();
 
     string name;
     cout << "Input department name: ";
@@ -1196,12 +1344,12 @@ int deleteDepartmentByName(Company &company) {
 
     name = toLower(name);
 
-    if(head != NULL) {
-        while(head != NULL) {
+    if (head != NULL) {
+        while (head != NULL) {
             string str = toLower(head->data.name);
-            if(str.find(name) != string::npos) {
+            if (str.find(name) != string::npos) {
                 printDepartment(head->data);
-                if(!confirm())
+                if (!confirm())
                     return 0;
                 company.listOfDepartment.removeItem(head);
                 cout << "Remove department successful!" << endl;
@@ -1209,7 +1357,8 @@ int deleteDepartmentByName(Company &company) {
             }
             head = head->next;
         }
-    } else {
+    }
+    else {
         cout << "Empty list!!" << endl;
         return 0;
     }
@@ -1219,7 +1368,7 @@ int deleteDepartmentByName(Company &company) {
     return 0;
 }
 
-int deleteAllDepartment(Company &company) {
+int deleteAllDepartment(Company& company) {
     if (!confirm())
         return 0;
     company.listOfDepartment.removeAll();
@@ -1227,7 +1376,7 @@ int deleteAllDepartment(Company &company) {
     return 1;
 }
 
-int deleteDepartment(Company &company)
+int deleteDepartment(Company& company)
 {
     bool isChose = false;
     int select;
@@ -1266,9 +1415,9 @@ int deleteDepartment(Company &company)
 }
 
 // Handle Search Employee
-int searchEmployeeByID(Company &company)
+int searchEmployeeByID(Company& company)
 {
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
 
     unsigned int id;
     cout << "Input employee ID: ";
@@ -1307,10 +1456,10 @@ int searchEmployeeByID(Company &company)
     return 1;
 }
 
-int searchEmployeeByName(Company &company)
+int searchEmployeeByName(Company& company)
 {
     List<EmployeeInfo> result;
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
 
     string name;
     cout << "Input employee name: ";
@@ -1349,10 +1498,10 @@ int searchEmployeeByName(Company &company)
     return 1;
 }
 
-int searchEmployeeByPosition(Company &company)
+int searchEmployeeByPosition(Company& company)
 {
     List<EmployeeInfo> result;
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
 
     string position;
     int select;
@@ -1422,7 +1571,7 @@ int searchEmployeeByPosition(Company &company)
     return 1;
 }
 
-int searchEmployee(Company &company)
+int searchEmployee(Company& company)
 {
     bool isChose = false;
     bool isSelect = false;
@@ -1461,9 +1610,9 @@ int searchEmployee(Company &company)
     return 1;
 }
 
-int searchDepartmentByID(Company &company)
+int searchDepartmentByID(Company& company)
 {
-    Node<DepartmentInfo> *head = company.listOfDepartment.getHead();
+    Node<DepartmentInfo>* head = company.listOfDepartment.getHead();
 
     unsigned int id;
     cout << "Input department ID: ";
@@ -1503,10 +1652,10 @@ int searchDepartmentByID(Company &company)
     return 1;
 }
 
-int searchDepartmentByName(Company &company)
+int searchDepartmentByName(Company& company)
 {
     List<DepartmentInfo> result;
-    Node<DepartmentInfo> *head = company.listOfDepartment.getHead();
+    Node<DepartmentInfo>* head = company.listOfDepartment.getHead();
 
     string name;
     cout << "Input department name: ";
@@ -1546,7 +1695,7 @@ int searchDepartmentByName(Company &company)
     return 1;
 }
 
-int searchDepartment(Company &company)
+int searchDepartment(Company& company)
 {
     bool isChose = false;
     bool isSelect = false;
@@ -1581,7 +1730,7 @@ int searchDepartment(Company &company)
 }
 
 // Handle Update Information
-int updateNameOfEmployee(Company &company, EmployeeInfo &employee)
+int updateNameOfEmployee(Company& company, EmployeeInfo& employee)
 {
     string newName;
     cout << "Input new employee name: ";
@@ -1596,7 +1745,7 @@ int updateNameOfEmployee(Company &company, EmployeeInfo &employee)
     return 1;
 }
 
-int updateDateOfEmployee(Company &company, EmployeeInfo &employee)
+int updateDateOfEmployee(Company& company, EmployeeInfo& employee)
 {
     string newDate;
     cout << "Input new employee date: ";
@@ -1611,7 +1760,7 @@ int updateDateOfEmployee(Company &company, EmployeeInfo &employee)
     return 1;
 }
 
-int updateGenderOfEmployee(Company &company, EmployeeInfo &employee)
+int updateGenderOfEmployee(Company& company, EmployeeInfo& employee)
 {
     string newGender;
     cout << "Input new employee gender: ";
@@ -1626,7 +1775,7 @@ int updateGenderOfEmployee(Company &company, EmployeeInfo &employee)
     return 1;
 }
 
-int updatePhoneOfEmployee(Company &company, EmployeeInfo &employee)
+int updatePhoneOfEmployee(Company& company, EmployeeInfo& employee)
 {
     string newPhone;
     cout << "Input new employee phone: ";
@@ -1641,7 +1790,7 @@ int updatePhoneOfEmployee(Company &company, EmployeeInfo &employee)
     return 1;
 }
 
-int updatePositionOfEmployee(Company &company, EmployeeInfo &employee)
+int updatePositionOfEmployee(Company& company, EmployeeInfo& employee)
 {
     string position;
     int select;
@@ -1686,7 +1835,7 @@ int updatePositionOfEmployee(Company &company, EmployeeInfo &employee)
     return 1;
 }
 
-int updateDepartmentOfEmployee(Company &company, EmployeeInfo &employee)
+int updateDepartmentOfEmployee(Company& company, EmployeeInfo& employee)
 {
     unsigned int newDepartmentID;
     cout << "Input new department ID: ";
@@ -1706,9 +1855,9 @@ int updateDepartmentOfEmployee(Company &company, EmployeeInfo &employee)
     return 1;
 }
 
-int updateInfoEmployee(Company &company)
+int updateInfoEmployee(Company& company)
 {
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
     unsigned int id;
     cout << "Input employee ID for edit: ";
     cin >> id;
@@ -1784,7 +1933,7 @@ int updateInfoEmployee(Company &company)
     return 1;
 }
 
-int updateNameOfDepartment(DepartmentInfo &department)
+int updateNameOfDepartment(DepartmentInfo& department)
 {
     string newName;
     cout << "Input new department name: ";
@@ -1799,7 +1948,7 @@ int updateNameOfDepartment(DepartmentInfo &department)
     return 1;
 }
 
-int updateManagerOfDepartment(Company &company, DepartmentInfo &department)
+int updateManagerOfDepartment(Company& company, DepartmentInfo& department)
 {
     unsigned int id;
     cout << "Input new department manager ID: ";
@@ -1820,9 +1969,9 @@ int updateManagerOfDepartment(Company &company, DepartmentInfo &department)
     return 1;
 }
 
-int updateInfoDepartment(Company &company)
+int updateInfoDepartment(Company& company)
 {
-    Node<DepartmentInfo> *head = company.listOfDepartment.getHead();
+    Node<DepartmentInfo>* head = company.listOfDepartment.getHead();
     unsigned int id;
     cout << "Input department ID for edit: ";
     cin >> id;
@@ -1878,7 +2027,7 @@ int updateInfoDepartment(Company &company)
     return 1;
 }
 
-int update(Company &company)
+int update(Company& company)
 {
     bool isChose = false;
     bool isSelect = false;
@@ -1913,48 +2062,47 @@ int update(Company &company)
 }
 
 // Handle Arrange
-int arrangeEmployeeByID(Company &company)
+int arrangeEmployeeByID(Company& company)
 {
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
     int len = company.listOfEmployee.getLen();
 
-    if (head != NULL)
-    {
-        while (head->next != NULL)
-        {
-            Node<EmployeeInfo> *_head = company.listOfEmployee.getHead();
-            while (_head->next != NULL)
-            {
-                if (_head->data.id > _head->next->data.id)
-                {
-                    EmployeeInfo temp;
-                    temp = _head->data;
-                    _head->data = _head->next->data;
-                    _head->next->data = temp;
-                }
-                _head = _head->next;
+    if (head != NULL) {
+        Node<EmployeeInfo>* current = head->next;
+
+        while (current != NULL) {
+            Node<EmployeeInfo>* temp = current;
+            EmployeeInfo tempData = temp->data;
+
+            while (temp != head && temp->prev->data.id > tempData.id) {
+                temp->data = temp->prev->data;
+                temp = temp->prev;
             }
-            head = head->next;
+
+            temp->data = tempData;
+            current = current->next;
         }
+
         cout << "Arrange successful!" << endl;
-    }
-    else
-    {
+    } else {
         cout << "Empty list !! Can not arrange empty list!" << endl;
         return 0;
     }
+
     return 1;
+
+    
 }
 
-int arrangeEmployeeByName(Company &company)
+int arrangeEmployeeByName(Company& company)
 {
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
     int len = company.listOfEmployee.getLen();
     if (head != NULL)
     {
         while (head->next != NULL)
         {
-            Node<EmployeeInfo> *_head = company.listOfEmployee.getHead();
+            Node<EmployeeInfo>* _head = company.listOfEmployee.getHead();
             while (_head->next != NULL)
             {
                 if (_head->data.name[0] > _head->next->data.name[0])
@@ -1979,40 +2127,46 @@ int arrangeEmployeeByName(Company &company)
     return 1;
 }
 
-int arrangeEmployeeByPosition(Company &company)
+int arrangeEmployeeByPosition(Company& company)
 {
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
     int len = company.listOfEmployee.getLen();
-    if (head != NULL)
-    {
-        while (head->next != NULL)
-        {
-            Node<EmployeeInfo> *_head = company.listOfEmployee.getHead();
-            while (_head->next != NULL)
-            {
-                if (_head->data.position[0] > _head->next->data.position[0])
-                {
-                    EmployeeInfo temp;
-                    temp = _head->data;
-                    _head->data = _head->next->data;
-                    _head->next->data = temp;
+
+    if (head != NULL) {
+        Node<EmployeeInfo>* current = head;
+
+        while (current->next != NULL) {
+            Node<EmployeeInfo>* minNode = current;
+            Node<EmployeeInfo>* temp = current->next;
+
+            while (temp != NULL) {
+                if (temp->data.position[0] < minNode->data.position[0]) {
+                    minNode = temp;
                 }
-                _head = _head->next;
+                temp = temp->next;
             }
-            head = head->next;
+
+            if (minNode != current) {
+                EmployeeInfo tempData = current->data;
+                current->data = minNode->data;
+                minNode->data = tempData;
+            }
+
+            current = current->next;
         }
+
         cout << "Arrange successful!" << endl;
     }
-    else
-    {
+    else {
         cout << "Empty list !! Can not arrange empty list!" << endl;
         return 0;
     }
 
     return 1;
+
 }
 
-int arrange(Company &company)
+int arrange(Company& company)
 {
     bool isChose = false;
     bool isSelect = false;
@@ -2053,12 +2207,172 @@ int arrange(Company &company)
     return 1;
 };
 
+// Handle budget
+int payrollForMonth(Company &company) {
+    Node<Timekeeping>* head = company.listOfTimeKeeping.getHead();
+
+    List<Timekeeping> result;
+
+    string month;
+    cout << "Input month: ";
+    cin.ignore();
+    getline(cin, month);
+
+    if (!hasTimekeepingWithMonth(company, month)) {
+        cout << "No result!!" << endl;
+        return 0;
+    }
+    else {
+        if (head != NULL) {
+            while (head != NULL) {
+                if (stoi(head->data.month) == stoi(month)) {
+                    result.addFirst(head->data);
+                }
+                head = head->next;
+            }
+        }
+
+        if (result.getLen() == 0) {
+            cout << "No result!" << endl;
+        }
+        else {
+            double total = 0;
+            List<Salary> salaryList;
+            Node<Timekeeping>* _head_timekeeping = result.getHead();
+            while (_head_timekeeping != NULL) {
+                Salary salary;
+                salary.id = _head_timekeeping->data.id;
+                salary.name = _head_timekeeping->data.name;
+                salary.month = _head_timekeeping->data.month;
+                salary.income = (_head_timekeeping->data.days) * 15;
+                salary.bonus = (salary.income) / 10;
+                salary.salary = (salary.income) + (salary.bonus);
+                total = total + salary.salary;
+                salaryList.addFirst(salary);
+                _head_timekeeping = _head_timekeeping->next;
+            }
+
+            printSalaryForMonth(salaryList);
+            cout << "\nTotal: $" << total << endl;
+        }
+    }
+    return 1;
+}
+
+int payrollForAll(Company& company) {
+    Node<Timekeeping>* head = company.listOfTimeKeeping.getHead();
+    double total = 0;
+    List<Salary> salaryList;
+    while (head != NULL) {
+        Salary salary;
+        salary.id = head->data.id;
+        salary.name = head->data.name;
+        salary.month = head->data.month;
+        salary.income = (head->data.days) * 15;
+        salary.bonus = (salary.income) / 10;
+        salary.salary = (salary.income) + (salary.bonus);
+        total = total + salary.salary;
+        salaryList.addFirst(salary);
+        head = head->next;
+    }
+
+    printSalaryForMonth(salaryList);
+    cout << "\nTotal: $" << total << endl;
+    return 1;
+}
+
+int budget(Company& company) {
+    bool isChose = false;
+    bool isSelect = false;
+    int select;
+    while (!isChose)
+    {
+        cout << "Chose your option ?" << endl;
+        cout << "1. Payroll for a month" << endl;
+        cout << "2. Payroll for all" << endl;
+        cout << "3. Back" << endl;
+        cout << "Input your select: ";
+        cin >> select;
+        switch (select)
+        {
+        case 1:
+            payrollForMonth(company);
+            isChose = true;
+            break;
+        case 2:
+            payrollForAll(company);
+            isChose = true;
+            break;
+        case 3:
+            isChose = true;
+            break;
+        default:
+            cout << "Invalid selection!" << endl;
+            break;
+        }
+    }
+    return 1;
+}
+
+// Handle Timekeeping
+int timeKeeping(Company &company) {
+    unsigned int id;
+    cout << "Input your ID: ";
+    cin >> id;
+    while (!hasEmployeeWithID(company, id)) {
+        cout << "Haven't employee with thí ID!!" << endl;
+        cout << "Input your ID: ";
+        cin >> id;
+    }
+    Timekeeping timekeeping;
+    timekeeping.id = id;
+    timekeeping.name = getEmployeeByID(company, timekeeping.id).name;
+
+    cout << "Input month: ";
+    cin >> timekeeping.month;
+    while ((stoi(timekeeping.month) > 12) || (stoi(timekeeping.month) < 0)) {
+        cout << "Invalid month!!" << endl;
+        cout << "Input month: ";
+        cin >> timekeeping.month;
+    }
+
+    if (hasTimekeepingWithIDandMonth(company, timekeeping.id, timekeeping.month)) {
+        cout << "This month was has timekeeping!" << endl;
+        return 0;
+    }
+
+    int daysInMonth = 31;
+    int year = 2023;
+    switch (stoi(timekeeping.month)) {
+    case 2:
+        daysInMonth = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? 29 : 28;
+        break;
+    case 4:
+    case 6:
+    case 9:
+    case 11:
+        daysInMonth = 30;
+        break;
+    }
+
+    cout << "Input day: ";
+    cin >> timekeeping.days;
+    while (timekeeping.days > daysInMonth) {
+        cout << "Invalid month!!" << endl;
+        cout << "Input month: ";
+        cin >> timekeeping.days;
+    }
+    company.listOfTimeKeeping.addFirst(timekeeping);
+    cout << "Timekeeping successful!" << endl;
+    return 1;
+}
+
 // Handle Format & Check
 string formatName(string name)
 {
-    string newString = name;
-
-    for (int i = 0; i < name.length(); i++)
+    string newString = trim(name);
+    int len = newString.length();
+    for (int i = 0; i < len; i++)
     {
         if (i == 0)
         {
@@ -2067,13 +2381,32 @@ string formatName(string name)
         else
         {
             newString[i] = tolower(newString[i]);
-            if (newString[i - 1] == ' ')
+            if (newString[i - 1] == ' ' && newString[i] != ' ')
             {
                 newString[i] = toupper(newString[i]);
             }
         }
     }
-    return newString;
+    string result;
+    bool space = false;
+    for (int i = 0; i < len; i++)
+    {
+        if (newString[i] == ' ')
+        {
+            if (!space)
+            {
+                result += newString[i];
+            }
+            space = true;
+        }
+        else
+        {
+            result += newString[i];
+            space = false;
+        }
+    }
+
+    return result;
 }
 
 bool checkPhoneInput(string phone)
@@ -2119,15 +2452,15 @@ bool isValidDate(string input) {
 
     int daysInMonth = 31;
     switch (month) {
-        case 2:
-            daysInMonth = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? 29 : 28;
-            break;
-        case 4:
-        case 6:
-        case 9:
-        case 11:
-            daysInMonth = 30;
-            break;
+    case 2:
+        daysInMonth = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? 29 : 28;
+        break;
+    case 4:
+    case 6:
+    case 9:
+    case 11:
+        daysInMonth = 30;
+        break;
     }
 
     return (day <= daysInMonth);
@@ -2141,9 +2474,9 @@ string toLower(string str) {
     return temp;
 }
 
-bool hasEmployeeWithID(Company &company, unsigned int id)
+bool hasEmployeeWithID(Company& company, unsigned int id)
 {
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
     if (head != NULL)
     {
         while (head != NULL)
@@ -2158,9 +2491,9 @@ bool hasEmployeeWithID(Company &company, unsigned int id)
     return false;
 }
 
-bool hasEmployeeWithPosition(Company &company, string position)
+bool hasEmployeeWithPosition(Company& company, string position)
 {
-    Node<EmployeeInfo> *head = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head = company.listOfEmployee.getHead();
     if (head != NULL)
     {
         while (head != NULL)
@@ -2175,9 +2508,9 @@ bool hasEmployeeWithPosition(Company &company, string position)
     return false;
 }
 
-bool hasDepartmentWithID(Company &company, unsigned int id)
+bool hasDepartmentWithID(Company& company, unsigned int id)
 {
-    Node<DepartmentInfo> *head = company.listOfDepartment.getHead();
+    Node<DepartmentInfo>* head = company.listOfDepartment.getHead();
     if (head != NULL)
     {
         while (head != NULL)
@@ -2192,8 +2525,8 @@ bool hasDepartmentWithID(Company &company, unsigned int id)
     return false;
 }
 
-bool hasDepartmentWithName(Company &company, string name) {
-    Node<DepartmentInfo> *head = company.listOfDepartment.getHead();
+bool hasDepartmentWithName(Company& company, string name) {
+    Node<DepartmentInfo>* head = company.listOfDepartment.getHead();
     if (head != NULL)
     {
         while (head != NULL)
@@ -2207,15 +2540,61 @@ bool hasDepartmentWithName(Company &company, string name) {
     return false;
 }
 
+bool hasTimekeepingWithID(Company& company, unsigned int id) {
+    Node<Timekeeping>* head = company.listOfTimeKeeping.getHead();
+    if (head != NULL)
+    {
+        while (head != NULL)
+        {
+            if (head->data.id == id)
+            {
+                return true;
+            }
+            head = head->next;
+        }
+    }
+    return false;
+}
+
+bool hasTimekeepingWithMonth(Company& company, string month) {
+    Node<Timekeeping>* head = company.listOfTimeKeeping.getHead();
+    if (head != NULL)
+    {
+        while (head != NULL)
+        {
+            if (head->data.month.find(month) != string::npos) {
+                return true;
+            }
+            head = head->next;
+        }
+    }
+    return false;
+}
+
+bool hasTimekeepingWithIDandMonth(Company& company, unsigned int id, string month) {
+    Node<Timekeeping>* head = company.listOfTimeKeeping.getHead();
+    if (head != NULL)
+    {
+        while (head != NULL)
+        {
+            if (head->data.id == id && head->data.month.find(month) != string::npos) {
+                return true;
+            }
+            head = head->next;
+        }
+    }
+    return false;
+}
+
 // Import/Export from files
-void writeDataToFile(Company &company)
+void writeDataToFile(Company& company)
 {
     char fileEmployee[18] = "employee-list.txt";
 
     cout << "Exporting to " << fileEmployee << "..." << endl;
 
     ofstream fileEmployeeOut(fileEmployee);
-    Node<EmployeeInfo> *head_employee = company.listOfEmployee.getHead();
+    Node<EmployeeInfo>* head_employee = company.listOfEmployee.getHead();
     fileEmployeeOut << company.listOfEmployee.getLen();
     fileEmployeeOut << endl;
     fileEmployeeOut << setw(ID_SPACE) << "ID";
@@ -2248,7 +2627,7 @@ void writeDataToFile(Company &company)
     cout << "Exporting to " << fileDepartment << "..." << endl;
 
     ofstream fileDepartmentOut(fileDepartment);
-    Node<DepartmentInfo> *head_department = company.listOfDepartment.getHead();
+    Node<DepartmentInfo>* head_department = company.listOfDepartment.getHead();
     fileDepartmentOut << company.listOfDepartment.getLen();
     fileDepartmentOut << endl;
     fileDepartmentOut << setw(ID_SPACE) << "ID";
@@ -2270,6 +2649,33 @@ void writeDataToFile(Company &company)
         head_department = head_department->next;
     }
     cout << "Exported to " << fileDepartment << " successful." << endl;
+
+    char fileTimekeeping[25] = "timekeeping-list.txt";
+    cout << "Exporting to " << fileTimekeeping << "..." << endl;
+
+    ofstream fileTimekeepingOut(fileTimekeeping);
+    Node<Timekeeping>* head_timekeeping = company.listOfTimeKeeping.getHead();
+    fileTimekeepingOut << company.listOfTimeKeeping.getLen();
+    fileTimekeepingOut << endl;
+    fileTimekeepingOut << setw(ID_SPACE) << "ID";
+    fileTimekeepingOut << setw(NAME_SPACE) << "Name";
+    fileTimekeepingOut << setw(DATE_SPACE) << "Month";
+    fileTimekeepingOut << setw(DATE_SPACE) << "Days";
+    fileTimekeepingOut << endl;
+
+    for (int i = 0; i < company.listOfTimeKeeping.getLen(); i++)
+    {
+        if (head_timekeeping != NULL)
+        {
+            fileTimekeepingOut << setw(ID_SPACE) << head_timekeeping->data.id;
+            fileTimekeepingOut << setw(NAME_SPACE) << head_timekeeping->data.name;
+            fileTimekeepingOut << setw(DATE_SPACE) << head_timekeeping->data.month;
+            fileTimekeepingOut << setw(DATE_SPACE) << head_timekeeping->data.days;
+            fileTimekeepingOut << endl;
+        }
+        head_timekeeping = head_timekeeping->next;
+    }
+    cout << "Exported to " << fileTimekeeping << " successful." << endl;
 }
 
 EmployeeInfo handleDataEmployeeFromLine(string data)
@@ -2319,9 +2725,26 @@ DepartmentInfo handleDataDepartmentFromLine(string data)
     return department;
 }
 
-int readDataFromFile(Company &company)
-{
+Timekeeping handleDataTimekeepingFromFile(string data) {
+    Timekeeping timekeeping;
 
+    // Get ID from file
+    timekeeping.id = stoi(trim(data.substr(0, ID_SPACE)));
+
+    // Get name from file
+    timekeeping.name = trim(data.substr(ID_SPACE, NAME_SPACE));
+
+    // Get manager name from file
+    timekeeping.month = trim(data.substr(ID_SPACE + NAME_SPACE, DATE_SPACE));
+
+    // Get manager name from file
+    timekeeping.days = stoi(trim(data.substr(ID_SPACE + NAME_SPACE + DATE_SPACE, DATE_SPACE)));
+
+    return timekeeping;
+}
+
+int readDataFromFile(Company& company)
+{
     // Read employee data from file
     char fileEmployee[18] = "employee-list.txt";
     cout << "Importing data from " << fileEmployee << "..." << endl;
@@ -2354,7 +2777,7 @@ int readDataFromFile(Company &company)
 
     ifstream fileDepartmentIn(fileDepartment);
 
-    // Get number of employee at first line
+    // Get number of department at first line
     int numOfDepartment;
     fileDepartmentIn >> numOfDepartment;
 
@@ -2373,6 +2796,32 @@ int readDataFromFile(Company &company)
 
     cout << "Importing data from " << fileDepartment << " successful." << endl;
     fileDepartmentIn.close();
+    
+    // Read timekeeping data from file
+    char fileTimekeeping[25] = "timekeeping-list.txt";
+    cout << "Importing data from " << fileTimekeeping << "..." << endl;
 
+    ifstream fileTimekeepingIn(fileTimekeeping);
+
+    // Get number of timekeeping at first line
+    int numOfTimekeeping;
+    fileTimekeepingIn >> numOfTimekeeping;
+
+    string dataTimekeeping;
+    // Skip first and second line in file
+    getline(fileTimekeepingIn, dataTimekeeping);
+    getline(fileTimekeepingIn, dataTimekeeping);
+
+    // Get data from file
+    for (int i = 0; i < numOfTimekeeping; i++)
+    {
+        getline(fileTimekeepingIn, dataTimekeeping);
+        Timekeeping timekeeping = handleDataTimekeepingFromFile(dataTimekeeping);
+        company.listOfTimeKeeping.addLast(timekeeping);
+    }
+
+    cout << "Importing data from " << fileTimekeeping << " successful." << endl;
+    fileTimekeepingIn.close();
+    
     return 1;
 }

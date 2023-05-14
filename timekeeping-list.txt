@@ -1,0 +1,10 @@
+8
+   ID                     Name          Month           Days
+    3             Nguyen Van C              1             24
+    3             Nguyen Van C              4              7
+    3             Nguyen Van C              2             27
+    2             Nguyen Thi B              3             27
+    2             Nguyen Thi B              2             27
+    1             Nguyen Van A              4             30
+    1             Nguyen Van A              3             29
+    1             Nguyen Van A              2             28
