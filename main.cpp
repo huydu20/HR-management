@@ -396,6 +396,14 @@ int main()
 // Display
 void App(Company& company, bool& isRunning)
 {
+    cout << "*****************************************" << endl;
+    cout << "*                                       *" << endl;
+    cout << "*                                       *" << endl;
+    cout << "*    Van Huy Du 20119205                *" << endl;
+    cout << "*    Phan Anh Cuong 20119204            *" << endl;
+    cout << "*    Tran Van Dat 20119216              *" << endl;
+    cout << "*                                       *" << endl;
+    cout << "*                                       *" << endl;
     cout << "==========HUMAN RESOURCE MANAGEMENT======" << endl;
     cout << "=================MENU====================" << endl;
     cout << "*   1. Add new employee                 *" << endl; // done
